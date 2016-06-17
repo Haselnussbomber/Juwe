@@ -11,7 +11,7 @@ tip:AddFontStrings(line1, tip:CreateFontString())
 tip:AddFontStrings(line2, tip:CreateFontString())
 tip:AddFontStrings(line3, tip:CreateFontString())
 
-local JEWELCRAFTING_S = GetSpellInfo(25229)
+local JEWELCRAFTING_ID = 755
 local GEM_S = '%+[0-9]+.*'
 
 local match = string.match
@@ -32,7 +32,19 @@ local function GetGemStats(id)
 end
 
 local function Update(self)
-    if disabled then return end
+    local isJewelcrafting = C_TradeSkillUI.GetTradeSkillLine() == JEWELCRAFTING_ID
+
+    if button then
+        if isJewelcrafting then
+            button:Show()
+        else
+            button:Hide()
+        end
+    end
+
+    if disabled or not isJewelcrafting then
+        return
+    end
 
     for i, button in ipairs(self.buttons) do
         if button.tradeSkillInfo and button.tradeSkillInfo.type == 'recipe' then
