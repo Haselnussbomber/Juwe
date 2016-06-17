@@ -15,39 +15,32 @@ local JEWELCRAFTING_S = GetSpellInfo(25229)
 local GEM_S = '%+[0-9]+.*'
 
 local match = string.match
+local cache = {}
 
 local function GetGemStats(id)
-    tip:SetOwner(WorldFrame, 'ANCHOR_NONE')
-    tip:SetTradeSkillItem(id)
+    if not id then return end
+    if cache[id] then return cache[id] end
 
-    if(tip:IsShown()) then
-        return match(line1:GetText() or '', GEM_S) or match(line2:GetText() or '', GEM_S) or match(line3:GetText() or '', GEM_S)
+    tip:SetOwner(WorldFrame, 'ANCHOR_NONE')
+    tip:SetRecipeResultItem(id)
+
+    if tip:IsShown() then
+        local line = match(line1:GetText() or '', GEM_S) or match(line2:GetText() or '', GEM_S) or match(line3:GetText() or '', GEM_S)
+        cache[id] = line
+        return line
     end
 end
 
-local function Update()
-    if(GetTradeSkillLine() ~= JEWELCRAFTING_S) then
-        if(button) then
-            button:Hide()
-        end
+local function Update(self)
+    if disabled then return end
 
-        return
-    else
-        button:Show()
-    end
+    for i, button in ipairs(self.buttons) do
+        if button.tradeSkillInfo and button.tradeSkillInfo.type == 'recipe' then
+            local stats = GetGemStats(button.tradeSkillInfo.recipeID)
 
-    if(not IsTradeSkillReady()) then return end
-    if(disabled) then return end
-
-    local filterBar = TradeSkillFilterBar:IsShown()
-    for index = 1, TRADE_SKILLS_DISPLAYED, 1 do
-        local buttonIndex = filterBar and index + 1 or index
-
-        local button = _G['TradeSkillSkill' .. buttonIndex]
-        if(button) then
-            local stats = GetGemStats(button:GetID())
-            if(stats) then
-                _G['TradeSkillSkill' .. buttonIndex .. 'Text']:SetText(stats)
+            if stats then
+                button.tradeSkillInfo.name = stats
+                button.Text:SetText(stats) -- fix for reactivating Juwe
             end
         end
     end
@@ -58,14 +51,18 @@ f:RegisterEvent('ADDON_LOADED')
 f:SetScript('OnEvent', function(self, event, name)
     if(name == 'Blizzard_TradeSkillUI') then
         button = CreateFrame('Button', 'SomeRandomButton123', TradeSkillFrame, 'UIPanelButtonTemplate')
-        button:SetPoint('TOPRIGHT', TradeSkillFrameCloseButton, 'TOPLEFT', -4, -1)
+        button:SetPoint('TOPRIGHT', TradeSkillFrameCloseButton, 'TOPLEFT', 0, -7)
         button:SetSize(15, 15)
         button:SetText('J')
         button:SetScript('OnClick', function()
             disabled = not disabled
-            TradeSkillFrame_Update()
+            TradeSkillFrame.RecipeList:Refresh()
         end)
 
-        hooksecurefunc('TradeSkillFrame_Update', Update)
+        -- update on load via TradeSkillRecipeListMixin
+        hooksecurefunc(TradeSkillFrame.RecipeList, 'RefreshDisplay', Update)
+
+        -- update on scroll via HybridScrollFrame
+        hooksecurefunc(TradeSkillFrame.RecipeList, 'update', Update)
     end
 end)

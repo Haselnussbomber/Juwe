@@ -1,6 +1,6 @@
-## Interface: 60100
+## Interface: 70000
 ## Notes: Jewelcrafting gems stats instead of names
-## Version: 1.7
+## Version: 1.8
 ## Title: Juwe
-## Author: p3lim
+## Author: p3lim, Haselnussbomber
 juwe.lua
