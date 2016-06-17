@@ -1,0 +1,6 @@
+## Interface: 60100
+## Notes: Jewelcrafting gems stats instead of names
+## Version: 1.7
+## Title: Juwe
+## Author: p3lim
+juwe.lua
