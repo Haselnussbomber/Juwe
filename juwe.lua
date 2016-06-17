@@ -1,4 +1,4 @@
-local disabled = false
+local isDisabled = false
 local button
 
 local tip = CreateFrame('GameTooltip', 'GemStatsTip')
@@ -42,17 +42,17 @@ local function Update(self)
         end
     end
 
-    if disabled or not isJewelcrafting then
+    if isDisabled or not isJewelcrafting then
         return
     end
 
-    for i, button in ipairs(self.buttons) do
-        if button.tradeSkillInfo and button.tradeSkillInfo.type == 'recipe' then
-            local stats = GetGemStats(button.tradeSkillInfo.recipeID)
+    for i, btn in ipairs(self.buttons) do
+        if btn.tradeSkillInfo and btn.tradeSkillInfo.type == 'recipe' then
+            local stats = GetGemStats(btn.tradeSkillInfo.recipeID)
 
             if stats then
-                button.tradeSkillInfo.name = stats
-                button.Text:SetText(stats) -- fix for reactivating Juwe
+                btn.tradeSkillInfo.name = stats
+                btn.Text:SetText(stats) -- fix for reactivating Juwe
             end
         end
     end
@@ -67,7 +67,7 @@ f:SetScript('OnEvent', function(self, event, name)
         button:SetSize(15, 15)
         button:SetText('J')
         button:SetScript('OnClick', function()
-            disabled = not disabled
+            isDisabled = not isDisabled
             TradeSkillFrame.RecipeList:Refresh()
         end)
 
