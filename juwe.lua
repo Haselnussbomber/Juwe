@@ -5,11 +5,13 @@ local tip = CreateFrame('GameTooltip', 'GemStatsTip')
 local line1 = tip:CreateFontString()
 local line2 = tip:CreateFontString()
 local line3 = tip:CreateFontString()
+local line4 = tip:CreateFontString()
 
 tip:AddFontStrings(tip:CreateFontString(), tip:CreateFontString())
 tip:AddFontStrings(line1, tip:CreateFontString())
 tip:AddFontStrings(line2, tip:CreateFontString())
 tip:AddFontStrings(line3, tip:CreateFontString())
+tip:AddFontStrings(line4, tip:CreateFontString())
 
 local JEWELCRAFTING_ID = 755
 local GEM_S = '%+[0-9]+.*'
@@ -25,7 +27,15 @@ local function GetGemStats(id)
     tip:SetRecipeResultItem(id)
 
     if tip:IsShown() then
-        local line = match(line1:GetText() or '', GEM_S) or match(line2:GetText() or '', GEM_S) or match(line3:GetText() or '', GEM_S)
+        local name, link = tip:GetItem()
+        local itemClassId = select(12, GetItemInfo(link))
+
+        if itemClassId ~= LE_ITEM_CLASS_GEM then return end
+
+        local line = match(line1:GetText() or '', GEM_S)
+            or match(line2:GetText() or '', GEM_S)
+            or match(line3:GetText() or '', GEM_S)
+            or match(line4:GetText() or '', GEM_S);
         cache[id] = line
         return line
     end
