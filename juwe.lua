@@ -28,15 +28,18 @@ local function GetGemStats(id)
 
     if tip:IsShown() then
         local name, link = tip:GetItem()
-        local itemClassId = select(12, GetItemInfo(link))
+        if not link then return end
 
+        local itemClassId = select(12, GetItemInfo(link))
         if itemClassId ~= LE_ITEM_CLASS_GEM then return end
 
         local line = match(line1:GetText() or '', GEM_S)
             or match(line2:GetText() or '', GEM_S)
             or match(line3:GetText() or '', GEM_S)
             or match(line4:GetText() or '', GEM_S);
+
         cache[id] = line
+
         return line
     end
 end
