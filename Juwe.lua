@@ -18,7 +18,7 @@ local JEWELCRAFTING_SKILL_IDS = {
 	2520, -- Pandaria Jewelcrafting
 	2519, -- Draenor Jewelcrafting
 	2518, -- Legion Jewelcrafting
-	2517, -- Kul Tiran Jewelcrafting
+	2517, -- Kul Tiran Jewelcrafting (Alliance) / Zandalari Jewelcrafting (Horde)
 };
 
 local function GetGemStats(id)
