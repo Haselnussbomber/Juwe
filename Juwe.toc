@@ -1,0 +1,7 @@
+## Interface: 80000
+## Title: Juwe
+## Notes: Shows the stats of a gem instead of its name.
+## Version: 3.0
+## Author: p3lim, Tonyleila, Haselnussbomber
+
+Juwe.lua
