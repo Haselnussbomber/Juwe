@@ -1,14 +1,24 @@
-local JuweFrame = CreateFrame("Frame", "Juwe");
-JuweFrame:RegisterEvent("ADDON_LOADED");
-JuweFrame:RegisterEvent("TRADE_SKILL_DATA_SOURCE_CHANGED");
+--[[ * Juwe * ]]--
 
-local JuweTooltip = CreateFrame("GameTooltip", "JuweGemStatsTooltip", nil, "GameTooltipTemplate");
-JuweTooltip:SetOwner(UIParent, "ANCHOR_NONE");
+Juwe = CreateFrame("Frame", "Juwe");
+Juwe:RegisterEvent("ADDON_LOADED");
+Juwe:RegisterEvent("TRADE_SKILL_DATA_SOURCE_CHANGED");
+Juwe:RegisterEvent("GET_ITEM_INFO_RECEIVED");
+Juwe:SetScript("OnEvent", function(self, event, ...)
+	if (self[event]) then
+		self[event](self, ...);
+	end
+end);
 
-local JuweToggleButton;
-local isDisabled = false;
-local isJewelcrafting = false;
+Juwe.isJewelcrafting = false;
+Juwe.isDisabled = false;
+
 local cache = {};
+Juwe.cache = cache;
+
+local tooltip = CreateFrame("GameTooltip", "JuweTooltip", nil, "GameTooltipTemplate");
+tooltip:SetOwner(UIParent, "ANCHOR_NONE");
+Juwe.tooltip = tooltip;
 
 local JEWELCRAFTING_SKILL_IDS = {
 	2524, -- Jewelcrafting
@@ -21,18 +31,99 @@ local JEWELCRAFTING_SKILL_IDS = {
 	2517, -- Kul Tiran Jewelcrafting (Alliance) / Zandalari Jewelcrafting (Horde)
 };
 
-local function GetGemStats(id)
+-- executes after TradeSkillRecipeButtonMixin:SetUpRecipe
+local function SetUpRecipeHook(self, textWidth, tradeSkillInfo)
+	local stats = Juwe:GetGemStats(tradeSkillInfo.recipeID);
+	if (not stats) then
+		return;
+	end
+
+	-- replace name with gem stats
+	tradeSkillInfo.name = stats;
+
+	-- call original function again to correctly set new name
+	TradeSkillRecipeButtonMixin.SetUpRecipe(self, textWidth, tradeSkillInfo);
+end
+
+--[[ Event Handler ]]--
+
+function Juwe:ADDON_LOADED(name)
+	if (self.initialized or name ~= "Blizzard_TradeSkillUI") then
+		return;
+	end
+
+	self:Initialize();
+end
+
+function Juwe:TRADE_SKILL_DATA_SOURCE_CHANGED()
+	if (not self.initialized) then
+		return;
+	end
+
+	local tradeSkillID = C_TradeSkillUI.GetTradeSkillLine();
+	self.isJewelcrafting = tContains(JEWELCRAFTING_SKILL_IDS, tradeSkillID);
+
+	if (self.toggleButton) then
+		self.toggleButton:SetShown(self.isJewelcrafting);
+	end
+end
+
+function Juwe:GET_ITEM_INFO_RECEIVED()
+	if (not self.initialized or self.refreshCooldown) then
+		return;
+	end
+
+	-- only 1 update per frame
+	self.refreshCooldown = true;
+	C_Timer.After(0, function()
+		self.refreshCooldown = false;
+		TradeSkillFrame.RecipeList:RefreshDisplay();
+	end);
+end
+
+--[[ Juwe Functions ]]--
+
+function Juwe:Initialize()
+	local toggleButton = CreateFrame("Button", "JuweToggleButton", TradeSkillFrame, "UIPanelButtonTemplate");
+	self.toggleButton = toggleButton;
+	toggleButton:SetPoint("TOPRIGHT", TradeSkillFrameCloseButton, "TOPLEFT", 0, -8);
+	toggleButton:SetSize(15, 15);
+	toggleButton:SetText("J");
+	toggleButton:SetScript("OnClick", function()
+		self.isDisabled = not self.isDisabled;
+		TradeSkillFrame.RecipeList:Refresh();
+	end);
+
+	-- buttons are being reused, so we only need to hook each once
+	for i, btn in ipairs(TradeSkillFrame.RecipeList.buttons) do
+		hooksecurefunc(btn, "SetUpRecipe", SetUpRecipeHook);
+	end
+
+	self.initialized = true;
+end
+
+function Juwe:GetGemStats(id)
+	if (self.isDisabled or not self.isJewelcrafting or not id) then
+		return;
+	end
+
+	local cached = cache[id];
+	if (cached ~= nil) then
+		return cached;
+	end
+
 	-- request recipe result item
-	JuweTooltip:SetRecipeResultItem(id);
-	if (not JuweTooltip:IsShown()) then
+	tooltip:SetRecipeResultItem(id);
+	if (not tooltip:IsShown()) then
 		return;
 	end
 
 	-- get recipe result item
-	local name, link = JuweTooltip:GetItem();
+	local name, link = tooltip:GetItem();
 	if (name == "") then
-		-- sometimes we don't get any item data
+		-- sometimes we don't get any item data immediately
 		-- this happens for example when changing to the unlearned tab
+		-- the game queues up GetItem() requests and later fires GET_ITEM_INFO_RECEIVED
 		return;
 	end
 
@@ -45,8 +136,8 @@ local function GetGemStats(id)
 	end
 
 	-- scan tooltip lines for stats
-	for i=2, JuweTooltip:NumLines() do
-		local lineFrame = _G["JuweGemStatsTooltipTextLeft"..i];
+	for i=2, tooltip:NumLines() do
+		local lineFrame = _G[tooltip:GetName().."TextLeft"..i];
 		local lineText = lineFrame:GetText() or "";
 		local lineMatch = string.match(lineText, "%+[0-9]+.*");
 		if (lineMatch) then
@@ -55,66 +146,4 @@ local function GetGemStats(id)
 			return cache[id];
 		end
 	end
-end
-
-local function SetUpRecipe(self, textWidth, tradeSkillInfo)
-	if (isDisabled or not isJewelcrafting or not tradeSkillInfo or not tradeSkillInfo.recipeID) then
-		return;
-	end
-
-	local cachedStats = cache[tradeSkillInfo.recipeID];
-	if (cachedStats == false) then
-		-- not a gem => skip
-		return;
-	end
-
-	local stats = cachedStats or GetGemStats(tradeSkillInfo.recipeID);
-	if (not stats) then
-		-- no stats => skip
-		return;
-	end
-
-	-- replace name with gem stats
-	tradeSkillInfo.name = stats;
-
-	-- call original function to correctly set new name
-	TradeSkillRecipeButtonMixin.SetUpRecipe(self, textWidth, tradeSkillInfo);
-end
-
-JuweFrame:SetScript("OnEvent", function(self, event, name)
-	if (event == "ADDON_LOADED" and name == "Blizzard_TradeSkillUI") then
-		self:Initialize();
-	end
-
-	if (event == "TRADE_SKILL_DATA_SOURCE_CHANGED") then
-		self:OnDataSourceChanged();
-	end
-end);
-
-function JuweFrame:Initialize()
-	JuweToggleButton = CreateFrame("Button", "JuweToggleButton", TradeSkillFrame, "UIPanelButtonTemplate");
-	JuweToggleButton:SetPoint("TOPRIGHT", TradeSkillFrameCloseButton, "TOPLEFT", 0, -8);
-	JuweToggleButton:SetSize(15, 15);
-	JuweToggleButton:SetText("J");
-	JuweToggleButton:SetScript("OnClick", function()
-		isDisabled = not isDisabled;
-		TradeSkillFrame.RecipeList:Refresh();
-	end);
-
-	-- buttons are being reused, so we only need to hook them once
-	for i, btn in ipairs(TradeSkillFrame.RecipeList.buttons) do
-		hooksecurefunc(btn, "SetUpRecipe", SetUpRecipe);
-	end
-end
-
--- used to update state when switching professions
-function JuweFrame:OnDataSourceChanged()
-	local tradeSkillID = C_TradeSkillUI.GetTradeSkillLine();
-	isJewelcrafting = tContains(JEWELCRAFTING_SKILL_IDS, tradeSkillID);
-
-	if (not JuweToggleButton) then
-		return;
-	end
-
-	JuweToggleButton:SetShown(isJewelcrafting);
 end
