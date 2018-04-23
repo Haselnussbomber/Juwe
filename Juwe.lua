@@ -1,6 +1,13 @@
 --[[ * Juwe * ]]--
 
-Juwe = CreateFrame("Frame", "Juwe");
+-- cache global variables
+local _G = _G
+local select = select
+local string_match = string.match
+local GetItemInfo = GetItemInfo
+local LE_ITEM_CLASS_GEM = LE_ITEM_CLASS_GEM
+
+local Juwe = CreateFrame("Frame", "Juwe");
 Juwe:RegisterEvent("ADDON_LOADED");
 Juwe:RegisterEvent("TRADE_SKILL_DATA_SOURCE_CHANGED");
 Juwe:RegisterEvent("GET_ITEM_INFO_RECEIVED");
@@ -139,7 +146,7 @@ function Juwe:GetGemStats(id)
 	for i=2, tooltip:NumLines() do
 		local lineFrame = _G[tooltip:GetName().."TextLeft"..i];
 		local lineText = lineFrame:GetText() or "";
-		local lineMatch = string.match(lineText, "%+[0-9]+.*");
+		local lineMatch = string_match(lineText, "%+[0-9]+.*");
 		if (lineMatch) then
 			-- stats found => cache and return
 			cache[id] = lineMatch;
