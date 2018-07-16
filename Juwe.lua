@@ -143,7 +143,7 @@ function Juwe:GetGemStats(id)
 	for i=2, tooltip:NumLines() do
 		local lineFrame = _G[tooltip:GetName().."TextLeft"..i];
 		local lineText = lineFrame:GetText() or "";
-		local lineMatch = string_match(lineText, "%+[0-9]+.*");
+		local lineMatch = string_match(lineText, "^%+?[0-9]+.*");
 		if (lineMatch) then
 			-- stats found => cache and return
 			cache[id] = lineMatch;
