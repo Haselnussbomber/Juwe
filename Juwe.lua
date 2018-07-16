@@ -1,11 +1,12 @@
 --[[ * Juwe * ]]--
 
--- cache global variables
-local _G = _G
-local select = select
-local string_match = string.match
-local GetItemInfo = GetItemInfo
-local LE_ITEM_CLASS_GEM = LE_ITEM_CLASS_GEM
+local _G = _G;
+local select = select;
+local string_match = string.match;
+local tContains = tContains;
+local GetItemInfo = GetItemInfo;
+local C_TradeSkillUI_GetTradeSkillLine = C_TradeSkillUI.GetTradeSkillLine;
+local LE_ITEM_CLASS_GEM = LE_ITEM_CLASS_GEM;
 
 local Juwe = CreateFrame("Frame", "Juwe");
 Juwe:RegisterEvent("ADDON_LOADED");
@@ -59,7 +60,22 @@ function Juwe:ADDON_LOADED(name)
 		return;
 	end
 
-	self:Initialize();
+	local toggleButton = CreateFrame("Button", "JuweToggleButton", TradeSkillFrame, "UIPanelButtonTemplate");
+	self.toggleButton = toggleButton;
+	toggleButton:SetPoint("TOPRIGHT", TradeSkillFrameCloseButton, "TOPLEFT", 0, -8);
+	toggleButton:SetSize(15, 15);
+	toggleButton:SetText("J");
+	toggleButton:SetScript("OnClick", function()
+		self.isDisabled = not self.isDisabled;
+		TradeSkillFrame.RecipeList:Refresh();
+	end);
+
+	-- buttons are being reused, so we only need to hook each once
+	for i, btn in ipairs(TradeSkillFrame.RecipeList.buttons) do
+		hooksecurefunc(btn, "SetUpRecipe", SetUpRecipeHook);
+	end
+
+	self.initialized = true;
 end
 
 function Juwe:TRADE_SKILL_DATA_SOURCE_CHANGED()
@@ -67,7 +83,7 @@ function Juwe:TRADE_SKILL_DATA_SOURCE_CHANGED()
 		return;
 	end
 
-	local tradeSkillID = C_TradeSkillUI.GetTradeSkillLine();
+	local tradeSkillID = C_TradeSkillUI_GetTradeSkillLine();
 	self.isJewelcrafting = tContains(JEWELCRAFTING_SKILL_IDS, tradeSkillID);
 
 	if (self.toggleButton) then
@@ -89,25 +105,6 @@ function Juwe:GET_ITEM_INFO_RECEIVED()
 end
 
 --[[ Juwe Functions ]]--
-
-function Juwe:Initialize()
-	local toggleButton = CreateFrame("Button", "JuweToggleButton", TradeSkillFrame, "UIPanelButtonTemplate");
-	self.toggleButton = toggleButton;
-	toggleButton:SetPoint("TOPRIGHT", TradeSkillFrameCloseButton, "TOPLEFT", 0, -8);
-	toggleButton:SetSize(15, 15);
-	toggleButton:SetText("J");
-	toggleButton:SetScript("OnClick", function()
-		self.isDisabled = not self.isDisabled;
-		TradeSkillFrame.RecipeList:Refresh();
-	end);
-
-	-- buttons are being reused, so we only need to hook each once
-	for i, btn in ipairs(TradeSkillFrame.RecipeList.buttons) do
-		hooksecurefunc(btn, "SetUpRecipe", SetUpRecipeHook);
-	end
-
-	self.initialized = true;
-end
 
 function Juwe:GetGemStats(id)
 	if (self.isDisabled or not self.isJewelcrafting or not id) then
