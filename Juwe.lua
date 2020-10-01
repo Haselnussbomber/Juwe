@@ -39,19 +39,6 @@ local JEWELCRAFTING_SKILL_IDS = {
 	2517, -- Kul Tiran Jewelcrafting (Alliance) / Zandalari Jewelcrafting (Horde)
 };
 
--- For some gems GetItemInfo() returns the wrong Class Id. :(
--- This is a list of allowed Recipe Spell Ids.
-local VALID_GEM_RECIPES = {
-	-- 8.2
-	298800, -- [Leviathan's Eye of Agility]
-	298801, -- [Leviathan's Eye of Intellect]
-	298799, -- [Leviathan's Eye of Strength]
-	298797, -- [Masterful Sea Currant]
-	298796, -- [Quick Sand Spinel]
-	298798, -- [Deadly Lava Lazuli]
-	298794, -- [Versatile Dark Opal]
-};
-
 -- executes after TradeSkillRecipeButtonMixin:SetUpRecipe
 local function SetUpRecipeHook(self, textWidth, tradeSkillInfo)
 	local stats = Juwe:GetGemStats(tradeSkillInfo.recipeID);
@@ -146,7 +133,7 @@ function Juwe:GetGemStats(id)
 
 	-- process gems only
 	local itemClassId = select(12, GetItemInfo(link));
-	if (not (itemClassId == LE_ITEM_CLASS_GEM or tContains(VALID_GEM_RECIPES, id))) then
+	if (itemClassId ~= LE_ITEM_CLASS_GEM) then
 		-- not a gem => cache and return
 		cache[id] = false;
 		return cache[id];
