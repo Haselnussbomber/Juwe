@@ -40,21 +40,40 @@ local JEWELCRAFTING_SKILL_IDS = {
 	2757, -- Shadowlands Jewelcrafting
 };
 
--- executes after TradeSkillRecipeButtonMixin:SetUpRecipe
-local function SetUpRecipeHook(self, textWidth, tradeSkillInfo)
-	local stats = Juwe:GetGemStats(tradeSkillInfo.recipeID);
-	if (not stats) then
+--[[ Hooks ]]--
+
+-- executes after TradeSkillRecipeListMixin:RebuildDataList
+local function RebuildDataListHook(self)
+	if (Juwe.isDisabled or not Juwe.isJewelcrafting) then
 		return;
 	end
 
-	-- replace name with gem stats
-	tradeSkillInfo.name = stats;
-
-	-- call original function again to correctly set new name
-	TradeSkillRecipeButtonMixin.SetUpRecipe(self, textWidth, tradeSkillInfo);
+	for i in ipairs(self.dataList) do
+		if (self.dataList[i].type == "recipe") then
+			local stats = Juwe:GetGemStats(self.dataList[i].recipeID);
+			if (stats.valid) then
+				self.dataList[i].name = stats.text;
+			end
+		end
+	end
 end
 
 --[[ Event Handler ]]--
+
+function Juwe:OnUpdate()
+	if (not self.pendingRefresh) then
+		return;
+	end
+
+	self.pendingRefresh = false;
+
+	if (Juwe.isDisabled or not Juwe.isJewelcrafting or not TradeSkillFrame:IsShown()) then
+		return;
+	end
+
+	RebuildDataListHook(TradeSkillFrame.RecipeList);
+	TradeSkillFrame.RecipeList:RefreshDisplay();
+end
 
 function Juwe:ADDON_LOADED(name)
 	if (self.initialized or name ~= "Blizzard_TradeSkillUI") then
@@ -71,10 +90,9 @@ function Juwe:ADDON_LOADED(name)
 		TradeSkillFrame.RecipeList:Refresh();
 	end);
 
-	-- buttons are being reused, so we only need to hook each once
-	for i, btn in ipairs(TradeSkillFrame.RecipeList.buttons) do
-		hooksecurefunc(btn, "SetUpRecipe", SetUpRecipeHook);
-	end
+	hooksecurefunc(TradeSkillFrame.RecipeList, "RebuildDataList", RebuildDataListHook);
+
+	Juwe:SetScript("OnUpdate", self.OnUpdate);
 
 	self.initialized = true;
 end
@@ -93,50 +111,53 @@ function Juwe:TRADE_SKILL_DATA_SOURCE_CHANGED()
 end
 
 function Juwe:GET_ITEM_INFO_RECEIVED()
-	if (not self.initialized or not TradeSkillFrame:IsShown() or self.refreshCooldown) then
-		return;
+	if (self.initialized and TradeSkillFrame:IsShown()) then
+		self.pendingRefresh = true;
 	end
-
-	-- only 1 update per frame
-	self.refreshCooldown = true;
-	C_Timer.After(0, function()
-		self.refreshCooldown = false;
-		TradeSkillFrame.RecipeList:RefreshDisplay();
-	end);
 end
 
 --[[ Juwe Functions ]]--
 
 function Juwe:GetGemStats(id)
-	if (self.isDisabled or not self.isJewelcrafting or not id) then
+	if (not id) then
 		return;
 	end
 
-	local cached = cache[id];
-	if (cached ~= nil) then
-		return cached;
+	-- get or create cached recipe
+	cache[id] = cache[id] or {
+		retries = 0,
+		valid = nil,
+		text = nil
+	};
+
+	-- return if not a gem or tried multiple times to get info
+	if (cache[id].valid == false or cache[id].retries > 3) then
+		return cache[id];
 	end
+
+	cache[id].retries = cache[id].retries + 1;
 
 	-- request recipe result item
 	tooltip:SetRecipeResultItem(id);
 	if (not tooltip:IsShown()) then
-		return;
+		return cache[id];
 	end
 
 	-- get recipe result item
 	local name, link = tooltip:GetItem();
-	if (name == "") then
-		-- sometimes we don't get any item data immediately
-		-- this happens for example when changing to the unlearned tab
-		-- the game queues up GetItem() requests and later fires GET_ITEM_INFO_RECEIVED
-		return;
+
+	-- most of the time we don't get any item data immediately
+	if (not name or not link or name == "") then
+		self.pendingRefresh = true;
+		return cache[id];
 	end
 
-	-- process gems only
+	-- check if item is a gem
 	local itemClassId = select(12, GetItemInfo(link));
-	if (itemClassId ~= LE_ITEM_CLASS_GEM) then
-		-- not a gem => cache and return
-		cache[id] = false;
+	cache[id].valid = itemClassId == LE_ITEM_CLASS_GEM;
+
+	-- don't process tooltip if not a gem
+	if (cache[id].valid == false) then
 		return cache[id];
 	end
 
@@ -146,9 +167,12 @@ function Juwe:GetGemStats(id)
 		local lineText = lineFrame:GetText() or "";
 		local lineMatch = string_match(lineText, "^%+?[0-9]+.*");
 		if (lineMatch) then
-			-- stats found => cache and return
-			cache[id] = lineMatch;
+			cache[id].text = lineMatch; -- stats found
 			return cache[id];
 		end
 	end
+
+	-- invalidate if no stats found (example: Brilliant Scarlet Ruby)
+	cache[id].valid = false;
+	return cache[id];
 end
