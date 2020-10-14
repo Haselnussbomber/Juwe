@@ -37,6 +37,7 @@ local JEWELCRAFTING_SKILL_IDS = {
 	2519, -- Draenor Jewelcrafting
 	2518, -- Legion Jewelcrafting
 	2517, -- Kul Tiran Jewelcrafting (Alliance) / Zandalari Jewelcrafting (Horde)
+	2757, -- Shadowlands Jewelcrafting
 };
 
 -- executes after TradeSkillRecipeButtonMixin:SetUpRecipe
