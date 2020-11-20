@@ -1,7 +1,8 @@
-## Interface: 90001
+## Interface: 90002
 ## Title: Juwe
 ## Notes: Shows the stats of a gem instead of its name.
-## Version: 3.2
+## Version: 3.2.1
 ## Author: p3lim, Tonyleila, Haselnussbomber
+## X-WoWI-ID: 22293
 
 Juwe.lua
