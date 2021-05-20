@@ -100,7 +100,7 @@ function Juwe:GetGemStats(index)
 	end
 
 	local id, _, _, _, _, itemClassId = GetItemInfoInstant(link);
-	if (not id) then
+	if (not id or itemClassId ~= LE_ITEM_CLASS_GEM) then
 		return;
 	end
 
@@ -112,11 +112,11 @@ function Juwe:GetGemStats(index)
 	-- get or create cached recipe
 	cache[id] = cache[id] or {
 		retries = 0,
-		valid = itemClassId == LE_ITEM_CLASS_GEM,
+		valid = nil,
 		text = nil
 	};
 
-	-- return if not a gem or tried multiple times to get info
+	-- return if gem has no stats or tried multiple times to get info
 	if (cache[id].valid == false or cache[id].retries > 3) then
 		return cache[id];
 	end
@@ -136,6 +136,7 @@ function Juwe:GetGemStats(index)
 		local lineMatch = string_match(lineText, "^%+?[0-9]+.*");
 		if (lineMatch) then
 			cache[id].text = lineMatch; -- stats found
+			cache[id].valid = true;
 			return cache[id];
 		end
 	end
