@@ -1,8 +1,15 @@
-## Interface: 90002
+## Interface: 90200
+## Interface-BCC: 20504
 ## Title: Juwe
 ## Notes: Shows the stats of a gem instead of its name.
-## Version: 3.2.1
+## Version: @project-version@
 ## Author: p3lim, Tonyleila, Haselnussbomber
 ## X-WoWI-ID: 22293
 
+#@version-retail@
 Juwe.lua
+#@end-version-retail@
+
+#@version-bcc@
+Juwe_TBC.lua
+#@end-version-retail@
