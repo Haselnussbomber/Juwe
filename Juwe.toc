@@ -12,4 +12,4 @@ Juwe.lua
 
 #@version-bcc@
 Juwe_TBC.lua
-#@end-version-retail@
+#@end-version-bcc@
