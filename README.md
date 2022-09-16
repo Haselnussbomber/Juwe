@@ -1,7 +1,14 @@
 # Juwe
+Juwe is a modification for the Jewelcrafting Trade Skill Window.  
+It shows the stats of a gem instead of its name.  
+There is also a small [ J ] button which toggles the functionality to show the original gem names again.
 
-Shows the stats of a gem instead of its name.
+## Preview
+![Preview](https://user-images.githubusercontent.com/96642047/198362005-b37915b8-4020-48fe-a5a0-86b384dcf53e.jpg)
 
-https://www.wowinterface.com/downloads/info22293-JuweGemStatsinsteadofNames.html
+## Credits
+Credits for the original code goes to [p3lim](https://www.wowinterface.com/forums/member.php?u=52096).  
+Maintained since Legion by [Haselnussbomber](https://www.wowinterface.com/forums/member.php?u=328599).  
+Thank you!
 
-![Preview](https://user-images.githubusercontent.com/96642047/164873205-37a489cf-c20a-4d7b-a0d0-4263de9bff86.jpg)
+[Forum Discussion](https://www.wowinterface.com/forums/showthread.php?p=277730) | [GitHub Repository](https://github.com/Haselnussbomber/Juwe)

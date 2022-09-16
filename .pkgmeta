@@ -1,3 +1,5 @@
-enable-toc-creation: yes
+manual-changelog: RELEASE_NOTES.md
 ignore:
+  - .github
   - README.md
+  - CHANGELOG.md

@@ -1,11 +1,9 @@
-## Interface: 100000
+## Interface: 20504
 ## Title: Juwe
 ## Notes: Shows the stats of a gem instead of its name.
 ## Version: @project-version@
 ## Author: p3lim, Tonyleila, Haselnussbomber
-## LoadOnDemand: 1
-## LoadWith: Blizzard_Professions
 ## X-WoWI-ID: 22293
 ## X-Wago-ID: pkNMz06z
 
-Juwe.lua
+Juwe_TBC.lua

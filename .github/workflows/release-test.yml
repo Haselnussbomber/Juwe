@@ -1,0 +1,29 @@
+name: Package and release (test)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone project
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Extract release notes
+        id: extract-release-notes
+        uses: ffurrer2/extract-release-notes@v1
+        with:
+          release_notes_file: RELEASE_NOTES.md
+
+      - name: Package and release
+        uses: BigWigsMods/packager@v2
+        with:
+          args: -d
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: artifact
+          path: .release/Juwe/
