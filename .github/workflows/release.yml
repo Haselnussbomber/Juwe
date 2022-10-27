@@ -15,6 +15,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Extract release notes
+        id: extract-release-notes
+        uses: ffurrer2/extract-release-notes@v1
+        with:
+          release_notes_file: RELEASE_NOTES.md
+
       - name: Package and release
         uses: BigWigsMods/packager@v2
         env:
