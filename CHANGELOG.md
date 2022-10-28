@@ -3,6 +3,7 @@
 ### [4.0.0] (2022-10-27)
 
 - Updated for Dragonflight
+- Separated .toc files for Mainline and TBC
 - Added X-Wago-ID to .toc
 
 ### [3.2.1-1] (2022-05-13), [3.2.1-2] (2022-05-18)
@@ -44,8 +45,8 @@ Legion fix by Haselnussbomber
 The stats text is now enabled by Default
 updated *.toc - now downloadable via Curse Client
 
-### v1.3
-First Upload @ Curse and WoWInterface
+### 1.3
+First Upload on Curse and WoWInterface
 
 [Unreleased]: https://github.com/Haselnussbomber/Juwe/compare/v4.0.0...HEAD
 [4.0.0]: https://github.com/Haselnussbomber/Juwe/compare/v3.2.1-2...v4.0.0
