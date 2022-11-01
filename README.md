@@ -13,8 +13,6 @@ There is also a small [ J ] button which toggles the functionality to show the o
 - [Juwe on GitHub](https://github.com/Haselnussbomber/Juwe/releases)
 
 ## Credits
-Credits for the original code goes to [p3lim](https://www.wowinterface.com/forums/member.php?u=52096).  
-Maintained since Legion by [Haselnussbomber](https://www.wowinterface.com/forums/member.php?u=328599).  
-Thank you!
-
-[Forum Discussion](https://www.wowinterface.com/forums/showthread.php?p=277730) | [GitHub Repository](https://github.com/Haselnussbomber/Juwe)
+Credits for the [original code](https://www.wowinterface.com/forums/showthread.php?p=277730) goes to [p3lim](https://www.wowinterface.com/forums/member.php?u=52096).  
+Uploaded as addon by [Tonyleila](https://www.wowinterface.com/forums/member.php?u=231681).  
+Maintained since Legion by [Haselnussbomber](https://www.wowinterface.com/forums/member.php?u=328599).
