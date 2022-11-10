@@ -3,6 +3,7 @@
 ### [Unreleased]
 
 - Support for Crafting Orders
+- Bugfix for Recipes without Hyperlink (like Recrafting)
 
 ### [4.0.0] (2022-10-27)
 
