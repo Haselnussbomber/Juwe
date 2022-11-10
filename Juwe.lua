@@ -22,6 +22,7 @@ toggleButton:SetText("J");
 toggleButton:SetScript("OnClick", function()
 	isDisabled = not isDisabled;
 	ProfessionsFrame.CraftingPage:Init(ProfessionsFrame:GetProfessionInfo());
+	ProfessionsFrame.OrdersPage:Init(ProfessionsFrame:GetProfessionInfo());
 end);
 
 local function GetGemStats(item)
@@ -67,8 +68,8 @@ local function GetGemStats(item)
 	return cache[itemID];
 end
 
--- executes after ProfessionsCraftingPageMixin:Init
-hooksecurefunc(ProfessionsFrame.CraftingPage, "Init", function(self, professionInfo)
+-- executes after ProfessionsCraftingPageMixin:Init or ProfessionsCraftingOrderPageMixin:Init
+local function InitHook(self, professionInfo)
 	isJewelcrafting = professionInfo.profession == 12;
 	toggleButton:SetShown(isJewelcrafting);
 
@@ -76,7 +77,8 @@ hooksecurefunc(ProfessionsFrame.CraftingPage, "Init", function(self, professionI
 		return;
 	end
 
-	local dataProvider = self.RecipeList.ScrollBox:GetDataProvider();
+	local recipeList = (self.BrowseFrame and self.BrowseFrame.RecipeList) or self.RecipeList;
+	local dataProvider = recipeList.ScrollBox:GetDataProvider();
 	local items = {};
 	local hasItems = false;
 
@@ -99,7 +101,6 @@ hooksecurefunc(ProfessionsFrame.CraftingPage, "Init", function(self, professionI
 	local continuableContainer = ContinuableContainer:Create();
 	continuableContainer:AddContinuables(items);
 	continuableContainer:ContinueOnLoad(function()
-
 		for index, node in dataProvider:Enumerate() do
 			local data = node:GetData();
 			if (data and data.recipeInfo and data.recipeInfo.recipeID) then
@@ -113,6 +114,9 @@ hooksecurefunc(ProfessionsFrame.CraftingPage, "Init", function(self, professionI
 			end
 		end
 
-		self.RecipeList.ScrollBox:SetDataProvider(dataProvider, ScrollBoxConstants.RetainScrollPosition);
+		recipeList.ScrollBox:SetDataProvider(dataProvider, ScrollBoxConstants.RetainScrollPosition);
 	end);
-end);
+end
+
+hooksecurefunc(ProfessionsFrame.CraftingPage, "Init", InitHook);
+hooksecurefunc(ProfessionsFrame.OrdersPage, "Init", InitHook);
