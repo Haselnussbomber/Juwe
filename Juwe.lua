@@ -84,11 +84,11 @@ local function InitHook(self, professionInfo)
 
 	for index, node in dataProvider:Enumerate() do
 		local data = node:GetData();
-		if (data and data.recipeInfo and data.recipeInfo.recipeID) then
+		if (data and data.recipeInfo and data.recipeInfo.recipeID and data.recipeInfo.hyperlink) then
 			local itemID, _, _, _, _, classID = GetItemInfoInstant(data.recipeInfo.hyperlink);
 			if (itemID and classID == 3) then -- only process gems
 				items[data.recipeInfo.recipeID] = Item:CreateFromItemLink(data.recipeInfo.hyperlink);
-				hasItems = true
+				hasItems = true;
 			end
 		end
 	end
