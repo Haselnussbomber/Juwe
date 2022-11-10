@@ -1,5 +1,9 @@
 # Changelog
 
+### [Unreleased]
+
+- Support for Crafting Orders
+
 ### [4.0.0] (2022-10-27)
 
 - Updated for Dragonflight
