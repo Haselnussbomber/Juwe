@@ -1,5 +1,5 @@
 manual-changelog: RELEASE_NOTES.md
 ignore:
-  - .github
+  - RELEASE_NOTES.md
   - README.md
   - CHANGELOG.md
