@@ -1,5 +1,9 @@
 # Changelog
 
+### [Unreleased]
+
+- Using the new `C_TooltipInfo`-API for scanning tooltip lines.
+
 ### [4.1.0] (2022-11-16)
 
 - Support for Crafting Orders
