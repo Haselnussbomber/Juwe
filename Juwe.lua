@@ -1,18 +1,17 @@
 --[[ * Juwe * ]]--
 
 local _G = _G;
-local Item = Item;
+local C_TooltipInfo = C_TooltipInfo;
 local ContinuableContainer = ContinuableContainer;
-local string_match = string.match;
 local GetItemInfoInstant = GetItemInfoInstant;
+local Item = Item;
+local RETRIEVING_ITEM_INFO = RETRIEVING_ITEM_INFO;
+local TooltipUtil = TooltipUtil;
 
 local initialized = false;
 local isJewelcrafting = false;
 local isDisabled = false;
 local cache = {};
-
-local tooltip = CreateFrame("GameTooltip", "JuweTooltip", nil, "GameTooltipTemplate");
-tooltip:SetOwner(UIParent, "ANCHOR_NONE");
 
 local toggleButton = CreateFrame("Button", "JuweToggleButton", ProfessionsFrame, "UIPanelButtonTemplate");
 toggleButton:SetPoint("TOPRIGHT", ProfessionsFrame.CloseButton, "TOPLEFT", 0, -4);
@@ -32,40 +31,35 @@ local function GetGemStats(item)
 
 	local itemID = item:GetItemID();
 
-	-- get or create cached recipe
-	cache[itemID] = cache[itemID] or {
-		retries = 0,
-		valid = true,
-		name = nil
-	};
-
-	-- return if no stats found or tried multiple times to get info
-	if (cache[itemID].valid == false or cache[itemID].retries > 3) then
-		return cache[itemID];
+	if (cache[itemID] ~= nil and cache[itemID] == false) then
+		return false;
 	end
 
-	cache[itemID].retries = cache[itemID].retries + 1;
-
-	-- request item tooltip
-	tooltip:SetItemByID(itemID);
-	if (not tooltip:IsShown()) then
-		return cache[itemID];
+	local itemData = C_TooltipInfo.GetItemByID(itemID);
+	if (not itemData) then
+		return false;
 	end
 
-	-- scan tooltip lines for stats
-	for i=2, tooltip:NumLines() do
-		local lineFrame = _G[tooltip:GetName().."TextLeft"..i];
-		local lineText = lineFrame:GetText() or "";
-		local lineMatch = string_match(lineText, "^%+?[0-9]+.*");
-		if (lineMatch) then
-			cache[itemID].name = lineMatch; -- stats found
-			return cache[itemID];
+	-- scan tooltip lines
+	for i, lineData in ipairs(itemData.lines) do
+		TooltipUtil.SurfaceArgs(lineData);
+
+		if (lineData.leftText) then
+			if (lineData.leftText == RETRIEVING_ITEM_INFO) then
+				return false;
+			end
+
+			local lineMatch = lineData.leftText:match("^%+?[0-9]+.*");
+			if (lineMatch) then
+				cache[itemID] = lineMatch;
+				return lineMatch;
+			end
 		end
 	end
 
-	-- invalidate if no stats found (example: Brilliant Scarlet Ruby)
-	cache[itemID].valid = false;
-	return cache[itemID];
+	-- no stats were found
+	cache[itemID] = false;
+	return false;
 end
 
 -- executes after ProfessionsCraftingPageMixin:Init or ProfessionsCraftingOrderPageMixin:Init
@@ -107,8 +101,8 @@ local function InitHook(self, professionInfo)
 				local item = items[data.recipeInfo.recipeID];
 				if (item) then
 					local stats = GetGemStats(item);
-					if (stats and stats.valid) then
-						data.recipeInfo.name = stats.name;
+					if (stats) then
+						data.recipeInfo.name = stats;
 					end
 				end
 			end
