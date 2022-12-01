@@ -1,6 +1,6 @@
 # Changelog
 
-### [Unreleased]
+### [4.2.0] (2022-12-01)
 
 - Trimmed quality icon from name.
 - Using the new `C_TooltipInfo`-API for scanning tooltip lines.
@@ -58,7 +58,8 @@ updated *.toc - now downloadable via Curse Client
 ### 1.3
 First Upload on Curse and WoWInterface
 
-[Unreleased]: https://github.com/Haselnussbomber/Juwe/compare/v4.1.0...HEAD
+[Unreleased]: https://github.com/Haselnussbomber/Juwe/compare/v4.2.0...HEAD
+[4.2.0]: https://github.com/Haselnussbomber/Juwe/compare/v4.1.0...v4.2.0
 [4.1.0]: https://github.com/Haselnussbomber/Juwe/compare/v4.0.0...v4.1.0
 [4.0.0]: https://github.com/Haselnussbomber/Juwe/compare/v3.2.1-2...v4.0.0
 [3.2.1-2]: https://github.com/Haselnussbomber/Juwe/compare/v3.2.1-1...v3.2.1-2
