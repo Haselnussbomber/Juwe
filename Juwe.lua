@@ -26,7 +26,7 @@ end);
 
 local function GetGemStats(item)
 	if (not item) then
-		return;
+		return false;
 	end
 
 	local itemID = item:GetItemID();
