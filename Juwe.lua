@@ -49,7 +49,7 @@ local function GetGemStats(item)
 				return false;
 			end
 
-			local lineMatch = lineData.leftText:match("^%+?[0-9]+.*");
+			local lineMatch = lineData.leftText:match("^(%+?[0-9]+.*) |A") or lineData.leftText:match("^%+?[0-9]+.*");
 			if (lineMatch) then
 				cache[itemID] = lineMatch;
 				return lineMatch;
