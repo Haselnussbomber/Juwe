@@ -1,6 +1,5 @@
 # Juwe
-Juwe is a modification for the Jewelcrafting Trade Skill Window.  
-It shows the stats of a gem instead of its name.  
+Juwe modifies the Recipe List and Auction House to replace gem names with their corresponding stats.  
 There is also a small [ J ] button which toggles the functionality to show the original gem names again.
 
 ## Preview
