@@ -4,7 +4,7 @@
 ## Version: @project-version@
 ## Author: p3lim, Tonyleila, Haselnussbomber
 ## LoadOnDemand: 1
-## LoadWith: Blizzard_Professions
+## LoadWith: Blizzard_Professions, Blizzard_ProfessionsCustomerOrders, Blizzard_AuctionHouseUI
 ## IconTexture: Interface\Icons\ui_profession_jewelcrafting
 ## X-WoWI-ID: 22293
 ## X-Wago-ID: pkNMz06z
