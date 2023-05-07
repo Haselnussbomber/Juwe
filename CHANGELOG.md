@@ -1,5 +1,13 @@
 # Changelog
 
+### [Unreleased]
+
+Rewritten again and updated for Patch 10.1.
+
+- **Added:** Support for Auction House and Crafting Orders (as customer).
+- **Added:** The toggle button now has a tooltip and changes the background color indicating if Juwe is enabled or disabled.
+- **Fixed:** Adjusted the toggle button to be next to the maximize/minimize button, if shown.
+
 ### [4.2.0] (2022-12-01)
 
 - Trimmed quality icon from name.

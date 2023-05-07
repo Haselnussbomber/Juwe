@@ -1,11 +1,15 @@
-## Interface: 100000
+## Interface: 100100
 ## Title: Juwe
 ## Notes: Shows the stats of a gem instead of its name.
 ## Version: @project-version@
 ## Author: p3lim, Tonyleila, Haselnussbomber
 ## LoadOnDemand: 1
 ## LoadWith: Blizzard_Professions
+## IconTexture: Interface\Icons\ui_profession_jewelcrafting
 ## X-WoWI-ID: 22293
 ## X-Wago-ID: pkNMz06z
 
 Juwe.lua
+Juwe_AuctionHouse.lua
+Juwe_ProfessionsCustomerOrders.lua
+Juwe_ProfessionsFrame.lua
