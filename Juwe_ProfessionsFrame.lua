@@ -17,7 +17,7 @@ Juwe.OnAddonLoaded("Blizzard_Professions", function()
 		local tabID = ProfessionsFrame:GetTab();
 		toggleButton:ClearAllPoints();
 		toggleButton:SetPoint("TOPRIGHT", tabID == 1 and ProfessionsFrame.MaximizeMinimize or ProfessionsFrame.CloseButton, "TOPLEFT", 0, 1);
-		toggleButton:SetShown(isJewelcrafting and tabID ~= 2 and not Professions.IsCraftingMinimized());
+		toggleButton:SetShown(isJewelcrafting and tabID ~= 2 and not ProfessionsUtil.IsCraftingMinimized());
 	end
 
 	-- executes after ProfessionsRecipeListRecipeMixin:Init
