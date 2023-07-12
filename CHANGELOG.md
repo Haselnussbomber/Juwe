@@ -1,5 +1,9 @@
 # Changelog
 
+### [5.0.1] (2023-07-12)
+
+Updated for Patch 10.1.5.
+
 ### [5.0.0] (2023-05-07)
 
 Rewritten again and updated for Patch 10.1.
@@ -66,7 +70,8 @@ updated *.toc - now downloadable via Curse Client
 ### 1.3
 First Upload on Curse and WoWInterface
 
-[Unreleased]: https://github.com/Haselnussbomber/Juwe/compare/v5.0.0...HEAD
+[Unreleased]: https://github.com/Haselnussbomber/Juwe/compare/v5.0.1...HEAD
+[5.0.1]: https://github.com/Haselnussbomber/Juwe/compare/v5.0.0...v5.0.1
 [5.0.0]: https://github.com/Haselnussbomber/Juwe/compare/v4.2.0...v5.0.0
 [4.2.0]: https://github.com/Haselnussbomber/Juwe/compare/v4.1.0...v4.2.0
 [4.1.0]: https://github.com/Haselnussbomber/Juwe/compare/v4.0.0...v4.1.0
