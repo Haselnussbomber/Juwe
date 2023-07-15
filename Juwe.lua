@@ -31,7 +31,6 @@ function Juwe.GetGemStats(item, callback)
 
 		-- scan tooltip lines
 		for i, lineData in ipairs(itemData.lines) do
-			TooltipUtil.SurfaceArgs(lineData);
 			if (lineData.leftText) then
 				if (lineData.leftText == RETRIEVING_ITEM_INFO) then
 					return;
