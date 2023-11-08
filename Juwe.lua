@@ -49,28 +49,6 @@ function Juwe.GetGemStats(item, callback)
 	end);
 end
 
-local addonLoadedCallbacks = {};
-
-Juwe.frame = CreateFrame("Frame", "Juwe");
-Juwe.frame:RegisterEvent("ADDON_LOADED");
-Juwe.frame:SetScript("OnEvent", function(self, event, addonName)
-	if (addonLoadedCallbacks[addonName]) then
-		for _, callback in next, addonLoadedCallbacks[addonName] do
-			callback();
-		end
-		addonLoadedCallbacks[addonName] = nil;
-	end
-end);
-
-function Juwe.OnAddonLoaded(addonName, callback)
-	if (IsAddOnLoaded(addonName)) then
-		callback();
-	else
-		addonLoadedCallbacks[addonName] = addonLoadedCallbacks[addonName] or {};
-		tInsertUnique(addonLoadedCallbacks[addonName], callback);
-	end
-end
-
 function Juwe.CreateToggleButton(parent, onClickCallback)
 	local button = CreateFrame("Button", "JuweToggleButton" .. parent:GetName(), parent, "UIPanelButtonTemplate");
 	button:SetPoint("TOPRIGHT", parent.MaximizeMinimize or parent.CloseButton, "TOPLEFT", 0, 1);

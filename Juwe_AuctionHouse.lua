@@ -2,7 +2,7 @@ local _, Juwe = ...;
 
 local Item = Item;
 
-Juwe.OnAddonLoaded("Blizzard_AuctionHouseUI", function()
+EventUtil.ContinueOnAddOnLoaded("Blizzard_AuctionHouseUI", function()
 	Juwe.CreateToggleButton(AuctionHouseFrame, function()
 		AuctionHouseFrame.BrowseResultsFrame.ItemList.tableBuilder:Arrange();
 	end);

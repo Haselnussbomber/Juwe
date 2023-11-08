@@ -3,7 +3,7 @@ local _, Juwe = ...;
 local Item = Item;
 local PROFESSIONS_RECRAFT_ORDER_NAME_FMT = PROFESSIONS_RECRAFT_ORDER_NAME_FMT;
 
-Juwe.OnAddonLoaded("Blizzard_ProfessionsCustomerOrders", function()
+EventUtil.ContinueOnAddOnLoaded("Blizzard_ProfessionsCustomerOrders", function()
 	local Professions = Professions;
 
 	local wasFavoritesSearch = C_CraftingOrders.HasFavoriteCustomerOptions();

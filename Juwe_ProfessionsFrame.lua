@@ -2,7 +2,7 @@ local _, Juwe = ...;
 
 local Item = Item;
 
-Juwe.OnAddonLoaded("Blizzard_Professions", function()
+EventUtil.ContinueOnAddOnLoaded("Blizzard_Professions", function()
 	local math = math;
 	local Professions = Professions;
 
