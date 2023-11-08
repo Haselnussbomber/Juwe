@@ -1,10 +1,14 @@
 # Changelog
 
-### [5.0.1] (2023-07-12)
+## [5.0.2] (2023-11-08)
+
+Updated for Patch 10.2.0.
+
+## [5.0.1] (2023-07-12)
 
 Updated for Patch 10.1.5.
 
-### [5.0.0] (2023-05-07)
+## [5.0.0] (2023-05-07)
 
 Rewritten again and updated for Patch 10.1.
 
@@ -12,65 +16,66 @@ Rewritten again and updated for Patch 10.1.
 - **Added:** The toggle button now has a tooltip and changes the background color indicating if Juwe is enabled or disabled.
 - **Fixed:** Adjusted the toggle button to be next to the maximize/minimize button, if shown.
 
-### [4.2.0] (2022-12-01)
+## [4.2.0] (2022-12-01)
 
 - Trimmed quality icon from name.
 - Using the new `C_TooltipInfo`-API for scanning tooltip lines.
 
-### [4.1.0] (2022-11-16)
+## [4.1.0] (2022-11-16)
 
 - Support for Crafting Orders
 - Bugfix for Recipes without Hyperlink (like Recrafting)
 
-### [4.0.0] (2022-10-27)
+## [4.0.0] (2022-10-27)
 
 - Updated for Dragonflight
 - Separated .toc files for Mainline and TBC
 - Added X-Wago-ID to .toc
 
-### [3.2.1-1] (2022-05-13), [3.2.1-2] (2022-05-18)
+## [3.2.1-1] (2022-05-13), [3.2.1-2] (2022-05-18)
 - Bumped .toc Interface version to 90200 (Patch 9.2.0)
 - Added Burning Crusade Classic version
 
-### [3.2.1] (2020-11-20)
+## [3.2.1] (2020-11-20)
 - Bumped .toc Interface version to 90002 (Patch 9.0.2)
 - Added X-WoWI-ID to .toc
 
-### [3.2] (2020-10-14)
+## [3.2] (2020-10-14)
 Update for Shadowlands
 - Removed gem whitelist, as 8.2 gems have been fixed by Blizzard (Thanks!)
 - Added support for Shadowlands Jewelcrafting (skill 2757)
 - Finally fixed stat population when opening the trade skill window and changing to the unlearned tab
 
-### [3.1] (2019-06-26)
+## [3.1] (2019-06-26)
 Update for Patch 8.2.
 
-### [3.0] (2018-07-16)
+## [3.0] (2018-07-16)
 Battle for Azeroth update by Haselnussbomber
 
-### [2.0] (2017-08-31)
+## [2.0] (2017-08-31)
 .toc update for 7.1
 
-### [1.8] (2016-11-05)
+## [1.8] (2016-11-05)
 Legion fix by Haselnussbomber
 
-### [1.7]
+## [1.7]
 .toc update for 6.1
 
-### 1.6
+## 1.6
 .toc update for 5.4
 
-### 1.5
+## 1.5
 .toc update for 5.3
 
-### 1.4
+## 1.4
 The stats text is now enabled by Default
 updated *.toc - now downloadable via Curse Client
 
-### 1.3
+## 1.3
 First Upload on Curse and WoWInterface
 
-[Unreleased]: https://github.com/Haselnussbomber/Juwe/compare/v5.0.1...HEAD
+[Unreleased]: https://github.com/Haselnussbomber/Juwe/compare/main...HEAD
+[5.0.2]: https://github.com/Haselnussbomber/Juwe/compare/v5.0.1...v5.0.2
 [5.0.1]: https://github.com/Haselnussbomber/Juwe/compare/v5.0.0...v5.0.1
 [5.0.0]: https://github.com/Haselnussbomber/Juwe/compare/v4.2.0...v5.0.0
 [4.2.0]: https://github.com/Haselnussbomber/Juwe/compare/v4.1.0...v4.2.0

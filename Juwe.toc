@@ -1,4 +1,4 @@
-## Interface: 100105
+## Interface: 100200
 ## Title: Juwe
 ## Notes: Shows the stats of a gem instead of its name.
 ## Version: @project-version@
