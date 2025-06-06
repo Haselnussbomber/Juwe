@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.0.3] (2025-06-06)
+
+Maintenance release.
+
+- Updated TOC Interface version for Patch 11.1.5.
+- Categorized the addon under "Professions".
+- Removed old TBC Classic scripts.
+
 ## [5.0.2] (2023-11-08)
 
 Updated for Patch 10.2.0.
@@ -75,6 +83,7 @@ updated *.toc - now downloadable via Curse Client
 First Upload on Curse and WoWInterface
 
 [Unreleased]: https://github.com/Haselnussbomber/Juwe/compare/main...HEAD
+[5.0.3]: https://github.com/Haselnussbomber/Juwe/compare/v5.0.2...v5.0.3
 [5.0.2]: https://github.com/Haselnussbomber/Juwe/compare/v5.0.1...v5.0.2
 [5.0.1]: https://github.com/Haselnussbomber/Juwe/compare/v5.0.0...v5.0.1
 [5.0.0]: https://github.com/Haselnussbomber/Juwe/compare/v4.2.0...v5.0.0
