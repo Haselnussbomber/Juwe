@@ -1,5 +1,9 @@
 # Changelog
 
+## [5.0.4] (2025-12-03)
+
+- Updated TOC Interface version for Patch 11.2.7.
+
 ## [5.0.3] (2025-06-06)
 
 Maintenance release.
@@ -83,6 +87,7 @@ updated *.toc - now downloadable via Curse Client
 First Upload on Curse and WoWInterface
 
 [Unreleased]: https://github.com/Haselnussbomber/Juwe/compare/main...HEAD
+[5.0.4]: https://github.com/Haselnussbomber/Juwe/compare/v5.0.3...v5.0.4
 [5.0.3]: https://github.com/Haselnussbomber/Juwe/compare/v5.0.2...v5.0.3
 [5.0.2]: https://github.com/Haselnussbomber/Juwe/compare/v5.0.1...v5.0.2
 [5.0.1]: https://github.com/Haselnussbomber/Juwe/compare/v5.0.0...v5.0.1
