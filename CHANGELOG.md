@@ -1,5 +1,9 @@
 # Changelog
 
+## [5.0.5] (2026-01-21)
+
+- Updated TOC Interface version for Patch 12.0.0.
+
 ## [5.0.4] (2025-12-03)
 
 - Updated TOC Interface version for Patch 11.2.7.
